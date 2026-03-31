@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const PB_URL = 'http://100.71.10.116:8090'; 
+const PB_URL = 'https://api.yavuzyekvucut.me'; 
 const response = await fetch(`${PB_URL}/api/collections/site_settings/records`);
 const data = await response.json();
 const settings = data.items[0] || {}; 
