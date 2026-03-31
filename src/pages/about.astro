@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const PB_URL = 'https://api.yavuzyekvucut.me'; 
+const response = await fetch(`${PB_URL}/api/collections/site_settings/records?sort=-created`);
+const data = await response.json();
+const settings = data.items[0] || {}; 
+
+function getImg(filename) {
+  if (!filename || filename.length === 0) return 'https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=800';
+  const file = Array.isArray(filename) ? filename[0] : filename;
+  return `${PB_URL}/api/files/${settings.collectionId}/${settings.id}/${file}`;
+}
+---
+
+<BaseLayout title="About">
+  <div class="flex flex-col md:flex-row items-center gap-20 md:gap-32 mt-10 md:mt-20">
+    <div class="flex-1">
+      <h2 class="font-normal text-xs tracking-[6px] uppercase mb-10 opacity-60">The Story</h2>
+      <div class="space-y-6 text-lg lg:text-xl font-light leading-relaxed">
+        <p>I am a storyteller working across photography and film, approaching both as ways of constructing and navigating narrative. Rather than being tied to a single form, I choose the medium in relation to the story—treating images as tools that shape how something can be seen, felt, and remembered.</p>
+        <p>My work focuses on everyday spaces, quiet moments, and subtle tensions that often remain unnoticed. I am interested in the boundaries of visibility: what is revealed, what is withheld, and how meaning is produced in between. Through this, I explore the relationship between image, perception, and identity.</p>
+        <p>Aesthetically, I tend toward natural light, simple compositions, and a restrained visual language. I am less concerned with resolution and more with atmosphere—creating works that leave space for ambiguity, inviting the viewer to linger rather than to arrive at a fixed conclusion.</p>
+      </div>
+    </div>
+
+    <div class="flex-[0_0_40%]">
+      <img src={getImg(settings.bio_photo)} alt="Yavuz Yekvücut Portrait" class="w-full aspect-[3/4] object-cover" />
+    </div>
+  </div>
+</BaseLayout>

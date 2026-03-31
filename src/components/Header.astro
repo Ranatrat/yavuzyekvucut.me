@@ -1,0 +1,46 @@
+---
+---
+<header class="text-center pt-24 pb-10 px-5 relative">
+  <h1 class="font-normal text-3xl md:text-4xl tracking-[7px] uppercase mb-10">Yavuz Yekvücut</h1>
+  <nav class="flex justify-center gap-8 md:gap-16 pb-10 flex-wrap">
+    <a href="/" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors duration-400">Home</a>
+    <a href="/portfolio" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors duration-400">Portfolio</a>
+    <a href="/about" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors duration-400">About</a>
+    <a href="/contact" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors duration-400">Contact</a>
+  </nav>
+  
+  <div class="absolute top-8 right-8 md:top-12 md:right-20 flex items-center gap-4 text-xs tracking-[2.5px] uppercase z-50">
+    <span>Dark</span>
+    <label class="relative inline-block w-12 h-6 cursor-pointer">
+      <input type="checkbox" id="theme-toggle" class="sr-only peer">
+      <div class="w-full h-full bg-transparent border border-portfolio-vintage-text light:border-portfolio-white-text rounded-full peer-checked:after:translate-x-6 after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-portfolio-vintage-text light:after:bg-portfolio-white-text after:rounded-full after:h-[16px] after:w-[16px] after:transition-all"></div>
+    </label>
+    <span>Light</span>
+  </div>
+</header>
+
+<script is:inline>
+  // Tuşu ve sayfanın en üst html elementini bul
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlElement = document.documentElement;
+
+  // 1. Sayfa ilk açıldığında tarayıcı hafızasını (localStorage) kontrol et
+  // Eğer kullanıcı daha önce light modu seçmişse, sayfayı light modda başlat
+  if (localStorage.getItem('theme') === 'light') {
+    htmlElement.classList.add('light');
+    if(themeToggle) themeToggle.checked = true;
+  }
+
+  // 2. Tuşa her tıklandığında temayı değiştir ve hafızaya kaydet
+  if (themeToggle) {
+    themeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        htmlElement.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        htmlElement.classList.remove('light');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  }
+</script>
