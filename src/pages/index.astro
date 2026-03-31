@@ -3,13 +3,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const PB_URL = 'https://api.yavuzyekvucut.me'; 
 
-const response = await fetch(`${PB_URL}/api/collections/site_settings/records?sort=-created`);
-const data = await response.json();
-const settings = data.items[0] || {}; 
+// 1. Varsayılan (Yedek) Ayarlar: Eğer fetch başarısız olursa site bu verileri kullanır.
+let settings = {
+  vitrin_1: '',
+  vitrin_2: '',
+  vitrin_3: '',
+  bio_photo: '',
+  cover_portfolio: '',
+  cover_about: '',
+  cover_contact: '',
+  collectionId: '',
+  id: ''
+};
+
+// 2. Güvenli Fetch İşlemi
+try {
+  const response = await fetch(`${PB_URL}/api/collections/site_settings/records?sort=-created`, {
+    signal: AbortSignal.timeout(5000) // 5 saniyede cevap gelmezse vazgeç
+  });
+  
+  if (response.ok) {
+    const data = await response.json();
+    if (data.items && data.items.length > 0) {
+      settings = data.items[0];
+    }
+  }
+} catch (error) {
+  console.error("PocketBase verisi çekilemedi, yerel ayarlar kullanılıyor:", error);
+  // Hata durumunda site çökmez, yukarıdaki boş 'settings' objesiyle devam eder.
+}
 
 function getImg(filename) {
   if (!filename || filename.length === 0) {
-    return 'https://images.unsplash.com/photo-1510215848574-8451121d5b35?auto=format&fit=crop&w=800'; 
+    // Fotoğraf yoksa Unsplash'ten rastgele bir vintage kamera fotosu getirir
+    return 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800'; 
   }
   const file = Array.isArray(filename) ? filename[0] : filename;
   return `${PB_URL}/api/files/${settings.collectionId}/${settings.id}/${file}`;
@@ -45,7 +72,7 @@ function getImg(filename) {
     <h3 class="font-normal text-xs lg:text-sm tracking-[5px] uppercase mb-16">MORE</h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
       
-<a href="/portfolio" class="relative overflow-hidden aspect-[16/9] group block">
+      <a href="/portfolio" class="relative overflow-hidden aspect-[16/9] group block">
         <img src={getImg(settings.cover_portfolio)} alt="Portfolio Preview" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
         <div class="absolute inset-0 bg-black/40 light:bg-white/30 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center">
           <span class="text-white light:text-portfolio-white-text font-normal tracking-[4px] uppercase text-sm md:text-base">Portfolio</span>
