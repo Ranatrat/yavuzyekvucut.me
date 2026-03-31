@@ -17,11 +17,16 @@ jobs:
       - name: Checkout your repository
         uses: actions/checkout@v4
 
-      # Yeni eklenen kısım: Node.js sürümünü 22'ye sabitliyoruz
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      # KRİTİK ADIM: Bun'ı sisteme kuruyoruz
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Install, build, and upload your site
         uses: withastro/action@v2
