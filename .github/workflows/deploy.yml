@@ -14,13 +14,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
+      - name: Checkout your repository
         uses: actions/checkout@v4
+
+      # Yeni eklenen kısım: Node.js sürümünü 22'ye sabitliyoruz
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Install, build, and upload your site
         uses: withastro/action@v2
         with:
           package-manager: bun
-        
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
