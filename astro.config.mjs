@@ -2,13 +2,9 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
+  // Sitenin ana klasörde değil, bir alt klasörde olduğunu belirtiyoruz
   output: 'static',
-  
-  // Sitenin internetteki ana adresi (Senin GitHub kullanıcı adınla)
   site: 'https://Ranatrat.github.io',
-  
-  // Repository (depo) adın. Başına ve sonuna / koymalısın.
-  base: '/yavuzyekvucut.me',
-  
+  base: '/yavuzyekvucut.me/', // Sonundaki / işareti çok önemli!
   integrations: [tailwind()]
 });
