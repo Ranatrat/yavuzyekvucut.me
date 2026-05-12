@@ -4,9 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const PB_URL = 'https://api.yavuzyekvucut.me'; 
 let items = [];
 
-// Traces kategorisindeki fotoğrafları 100 limitli çeker
 try {
-  // filter=(category='Traces') ve perPage=100 kısımlarına dikkat
   const response = await fetch(`${PB_URL}/api/collections/portfolio/records?perPage=100&sort=-created&filter=(category='Traces')`, {
     signal: AbortSignal.timeout(5000)
   });
@@ -19,9 +17,7 @@ try {
   console.error("PocketBase'den veriler çekilemedi:", error);
 }
 
-// Fotoğraf url'sini oluşturan fonksiyon
 function getImg(item) {
-  // Veritabanındaki görsel alanının adının 'image' olduğunu varsayıyoruz (farklıysa değiştir)
   const file = Array.isArray(item.image) ? item.image[0] : item.image;
   return `${PB_URL}/api/files/${item.collectionId}/${item.id}/${file}`;
 }
@@ -29,6 +25,10 @@ function getImg(item) {
 
 <BaseLayout title="Traces">
   
+  <div class="text-center mb-16">
+    <h1 class="font-normal text-sm md:text-base tracking-[5px] uppercase">Traces</h1>
+  </div>
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
     {items.map((item) => (
       <div class="group relative overflow-hidden aspect-[4/5] cursor-pointer" onclick={`openLightbox('${getImg(item)}')`}>
