@@ -29,11 +29,6 @@ function getImg(item) {
 
 <BaseLayout title="Traces">
   
-  <div class="text-center mb-16">
-    <h1 class="font-normal text-sm md:text-base tracking-[5px] uppercase mb-4">Traces</h1>
-    <p class="text-xs text-portfolio-vintage-border tracking-[2px] uppercase">Gündelik alanlar ve sessiz yaşanmışlıklar</p>
-  </div>
-
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
     {items.map((item) => (
       <div class="group relative overflow-hidden aspect-[4/5] cursor-pointer" onclick={`openLightbox('${getImg(item)}')`}>
