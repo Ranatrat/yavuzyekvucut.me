@@ -5,8 +5,8 @@ const PB_URL = 'https://api.yavuzyekvucut.me';
 let photos = [];
 
 try {
-  const filterQuery = encodeURIComponent("category~'encounters'");
-  const response = await fetch(`${PB_URL}/api/collections/portfolio/records?perPage=100&sort=-created&filter=${filterQuery}`);
+  // "portfolio" yerine "photos" koleksiyonuna gidiyoruz!
+  const response = await fetch(`${PB_URL}/api/collections/photos/records?perPage=100&sort=-created&filter=(category='encounters')`);
   if (response.ok) {
     const data = await response.json();
     photos = data.items;
