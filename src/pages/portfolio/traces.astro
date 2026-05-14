@@ -5,7 +5,8 @@ const PB_URL = 'https://api.yavuzyekvucut.me';
 let photos = [];
 
 try {
-  const response = await fetch(`${PB_URL}/api/collections/portfolio/records?perPage=100&sort=-created&filter=(category='Traces')`);
+  // Filtre kısmı küçük harfe göre güncellendi: category='traces'
+  const response = await fetch(`${PB_URL}/api/collections/portfolio/records?perPage=100&sort=-created&filter=(category='traces')`);
   if (response.ok) {
     const data = await response.json();
     photos = data.items;
@@ -14,7 +15,12 @@ try {
   console.error("PocketBase error:", error);
 }
 
-// Fotoğrafları asimetrik dizilim için iki sütuna bölüyoruz
+const getImageUrl = (photo) => {
+  if (!photo.image) return '';
+  const fileName = Array.isArray(photo.image) ? photo.image[0] : photo.image;
+  return `${PB_URL}/api/files/${photo.collectionId}/${photo.id}/${fileName}`;
+};
+
 const leftColumn = photos.filter((_, index) => index % 2 === 0);
 const rightColumn = photos.filter((_, index) => index % 2 !== 0);
 ---
@@ -27,36 +33,30 @@ const rightColumn = photos.filter((_, index) => index % 2 !== 0);
   {photos.length === 0 ? (
     <p class="text-center opacity-50 uppercase tracking-widest text-xs">Henüz fotoğraf eklenmedi.</p>
   ) : (
-    <div class="flex flex-col md:flex-row gap-x-16 md:gap-x-32 max-w-6xl mx-auto px-4">
+    <div class="flex flex-col md:flex-row gap-x-16 md:gap-x-32 max-w-6xl mx-auto px-4 pb-32">
       
       {/* Sol Sütun */}
       <div class="flex-1 flex flex-col gap-y-16 md:gap-y-32 w-full">
-        {leftColumn.map((photo) => {
-          const imageUrl = `${PB_URL}/api/files/${photo.collectionId}/${photo.id}/${photo.image}`;
-          return (
-            <img 
-              src={imageUrl} 
-              alt={photo.title || 'Traces Photography'} 
-              onclick="openLightbox(this.src)"
-              class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity duration-500" 
-            />
-          );
-        })}
+        {leftColumn.map((photo) => (
+          <img 
+            src={getImageUrl(photo)} 
+            alt={photo.title || 'Traces Photography'} 
+            onclick="openLightbox(this.src)"
+            class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity duration-500" 
+          />
+        ))}
       </div>
 
-      {/* Sağ Sütun (Zikzak etkisi için mt-16 md:mt-48 ekledik) */}
+      {/* Sağ Sütun */}
       <div class="flex-1 flex flex-col gap-y-16 md:gap-y-32 w-full mt-16 md:mt-48">
-        {rightColumn.map((photo) => {
-          const imageUrl = `${PB_URL}/api/files/${photo.collectionId}/${photo.id}/${photo.image}`;
-          return (
-            <img 
-              src={imageUrl} 
-              alt={photo.title || 'Traces Photography'} 
-              onclick="openLightbox(this.src)"
-              class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity duration-500" 
-            />
-          );
-        })}
+        {rightColumn.map((photo) => (
+          <img 
+            src={getImageUrl(photo)} 
+            alt={photo.title || 'Traces Photography'} 
+            onclick="openLightbox(this.src)"
+            class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity duration-500" 
+          />
+        ))}
       </div>
 
     </div>

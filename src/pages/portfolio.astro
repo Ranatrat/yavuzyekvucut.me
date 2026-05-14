@@ -3,52 +3,57 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const PB_URL = 'https://api.yavuzyekvucut.me';
 
-// PocketBase'den site_settings tablosundaki her şeyi çekiyoruz
-const response = await fetch(`${PB_URL}/api/collections/site_settings/records`);
-const data = await response.json();
-const settings = data.items[0] || {};
+// Veri çekme işlemini daha güvenli yapalım
+let settings = {};
+try {
+  const response = await fetch(`${PB_URL}/api/collections/site_settings/records`);
+  const data = await response.json();
+  settings = data.items[0] || {};
+} catch (e) {
+  console.error("PocketBase bağlantı hatası:", e);
+}
 
-// Kapak fotoğraflarının URL'sini oluşturan fonksiyon
+// Görsel URL fonksiyonunu güncelledik
 function getImg(filename) {
   if (!filename) return 'https://images.unsplash.com/photo-1493397212122-2b85edf8106b?auto=format&fit=crop&w=800';
+  // PocketBase'de dosya alanının adı 'cover_traces' vb. ise settings[filename] şeklinde çağırırız
   return `${PB_URL}/api/files/${settings.collectionId}/${settings.id}/${filename}`;
 }
 ---
 
 <BaseLayout title="Portfolio">
   
-  <!-- Üst başlık bölümü minimalist tercihiniz üzerine kaldırıldı, sadece içerik alanı başlar -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 max-w-5xl mx-auto pb-32 pt-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 max-w-5xl mx-auto pb-32 pt-10 px-4">
 
     <!-- 1. Portraits -->
     <a href="/portfolio/portraits" class="group relative block overflow-hidden aspect-[2/3] cursor-pointer">
       <img src={getImg(settings.cover_portraits)} alt="Portraits" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div class="absolute inset-0 bg-black/20 dark:bg-black/40 light:bg-white/10 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center">
-        <span class="text-white light:text-white font-normal tracking-[5px] uppercase text-xl">Portraits</span>
+        <span class="text-white font-normal tracking-[5px] uppercase text-xl">Portraits</span>
       </div>
     </a>
 
-    <!-- 2. Landscapes (Zikzak için aşağı itildi) -->
+    <!-- 2. Landscapes -->
     <a href="/portfolio/landscapes" class="group relative block overflow-hidden aspect-[2/3] cursor-pointer md:mt-32">
-      <img src={getImg(settings.cover_landscapes)} alt="Buildings" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+      <img src={getImg(settings.cover_landscapes)} alt="Landscapes" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div class="absolute inset-0 bg-black/20 dark:bg-black/40 light:bg-white/10 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center text-center">
-        <span class="text-white light:text-white font-normal tracking-[5px] uppercase text-xl px-4">Buildings &<br/>Landscapes</span>
+        <span class="text-white font-normal tracking-[5px] uppercase text-xl px-4">Buildings &<br/>Landscapes</span>
       </div>
     </a>
 
-    <!-- 3. Traces (Klasör yapısına uygun /portfolio/traces linki) -->
+    <!-- 3. Traces -->
     <a href="/portfolio/traces" class="group relative block overflow-hidden aspect-[2/3] cursor-pointer md:-mt-32">
       <img src={getImg(settings.cover_traces)} alt="Traces" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div class="absolute inset-0 bg-black/20 dark:bg-black/40 light:bg-white/10 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center text-center">
-        <span class="text-white light:text-white font-normal tracking-[5px] uppercase text-xl px-4">Traces</span>
+        <span class="text-white font-normal tracking-[5px] uppercase text-xl px-4">Traces</span>
       </div>
     </a>
 
-    <!-- 4. Encounters (Klasör yapısına uygun /portfolio/encounters linki) -->
+    <!-- 4. Encounters -->
     <a href="/portfolio/encounters" class="group relative block overflow-hidden aspect-[2/3] cursor-pointer">
       <img src={getImg(settings.cover_encounters)} alt="Encounters" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div class="absolute inset-0 bg-black/20 dark:bg-black/40 light:bg-white/10 group-hover:bg-black/60 transition-colors duration-500 flex items-center justify-center text-center">
-        <span class="text-white light:text-white font-normal tracking-[5px] uppercase text-xl px-4">Encounters</span>
+        <span class="text-white font-normal tracking-[5px] uppercase text-xl px-4">Encounters</span>
       </div>
     </a>
 
