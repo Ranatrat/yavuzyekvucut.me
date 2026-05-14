@@ -5,8 +5,9 @@ const PB_URL = 'https://api.yavuzyekvucut.me';
 let photos = [];
 
 try {
-  // Filtre kısmı küçük harfe göre güncellendi: category='traces'
-  const response = await fetch(`${PB_URL}/api/collections/portfolio/records?perPage=100&sort=-created&filter=(category='traces')`);
+  // "=" yerine "~" (contains/benzer) kullandık ve URL encoding ekledik
+  const filterQuery = encodeURIComponent("category~'traces'");
+  const response = await fetch(`${PB_URL}/api/collections/portfolio/records?perPage=100&sort=-created&filter=${filterQuery}`);
   if (response.ok) {
     const data = await response.json();
     photos = data.items;

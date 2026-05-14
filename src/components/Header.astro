@@ -1,15 +1,18 @@
 ---
 ---
 <header class="text-center pt-24 pb-10 px-5 relative">
+  <!-- Sitenin Ana Başlığı -->
   <h1 class="font-normal text-3xl md:text-4xl tracking-[7px] uppercase mb-10">Yavuz Yekvücut</h1>
   
+  <!-- Sadece Traces ve Encounters çıkarıldı, diğer 4 ana menü duruyor -->
   <nav class="flex justify-center gap-8 md:gap-16 pb-10 flex-wrap">
-    <a href="/" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transit>
-    <a href="/portfolio" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercas>
-    <a href="/about" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase tr>
-    <a href="/contact" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase >
+    <a href="/" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors">Home</a>
+    <a href="/portfolio" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors">Portfolio</a>
+    <a href="/about" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors">About</a>
+    <a href="/contact" class="text-portfolio-vintage-nav light:text-portfolio-white-nav hover:text-portfolio-vintage-navHover light:hover:text-portfolio-white-navHover text-sm tracking-[3.5px] uppercase transition-colors">Contact</a>
   </nav>
 
+  <!-- Tema Tuşu (Eski yerine, sağ üste geri döndü) -->
   <div class="absolute top-8 right-8 md:top-12 md:right-20 flex items-center gap-4 text-xs tracking-[2.5px] uppercase z-50">
     <span>Dark</span>
     <label class="relative inline-block w-12 h-6 cursor-pointer">
@@ -24,7 +27,6 @@
   const themeToggle = document.getElementById('theme-toggle');
   const htmlElement = document.documentElement;
 
-  // Temayı uygulama fonksiyonu
   const applyTheme = (theme) => {
     if (theme === 'light') {
       htmlElement.classList.add('light');
@@ -35,11 +37,9 @@
     }
   };
 
-  // 1. Sayfa yüklendiğinde hafızadaki temayı kontrol et
   const savedTheme = localStorage.getItem('theme') || 'dark';
   applyTheme(savedTheme);
 
-  // 2. Buton değiştiğinde temayı güncelle ve kaydet
   if (themeToggle) {
     themeToggle.addEventListener('change', function() {
       const newTheme = this.checked ? 'light' : 'dark';
